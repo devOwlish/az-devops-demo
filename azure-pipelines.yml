@@ -12,17 +12,22 @@ parameters:
     - Administrator
     - Reader
     - User
+
 trigger:
-  - main
+  - none
 
 pool: Selfhosted
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+container:
+  image: ghcr.io/devowlish/az-devops-assigner:0.0.1
 
-- script: |
-    echo ${{ parameters.name }}
-    echo ${{ parameters.pattern }}
-    echo ${{ parameters.role }}
-  displayName: 'Run a multi-line script'
+steps:
+
+- script: >
+    --name ${{ parameters.name }}
+    --pattern ${{ parameters.pattern }}
+    --role ${{ parameters.role }}
+  displayName: 'Assign permissions'
+  env:
+    AZ_DEVOPS_ORG: $(AZ_DEVOPS_ORG)
+    AZ_DEVOPS_PAT: $(AZ_DEVOPS_PAT)
