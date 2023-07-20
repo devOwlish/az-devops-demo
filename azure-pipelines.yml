@@ -12,18 +12,20 @@ parameters:
     - Administrator
     - Reader
     - User
-
+- name: image
+  type: string
+  displayName: Docker image to use for the job
+  default: ghcr.io/devowlish/az-devops-assigner:0.0.1 
 trigger:
   - none
 
 pool: Selfhosted
 
-container:
-  image: ghcr.io/devowlish/az-devops-assigner:0.0.1
-
 steps:
-
 - script: >
+    docker run --rm ${{ parameters.image }}
+    -e AZ_DEVOPS_ORG
+    -e AZ_DEVOPS_PAT
     --name ${{ parameters.name }}
     --pattern ${{ parameters.pattern }}
     --role ${{ parameters.role }}
