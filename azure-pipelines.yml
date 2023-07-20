@@ -1,0 +1,33 @@
+parameters:
+- name: name
+  displayName: User email or group name.
+  type: string
+- name: pattern
+  displayName: Case-insensitive of a variable group name. All VariableGroups matched are to be used.
+  type: string
+- name: role
+  displayName: Desired user or group role.
+  type: string
+  values:
+    - Administrator
+    - Reader
+    - User
+- name: image
+  type: string
+  displayName: Docker image to use for the job
+  default: ghcr.io/devowlish/az-devops-assigner:0.0.1 
+trigger:
+  - none
+
+pool: Selfhosted
+
+steps:
+- script: >
+    docker run --rm 
+    -e AZ_DEVOPS_ORG=$(AZ_DEVOPS_ORG)
+    -e AZ_DEVOPS_PAT=$(AZ_DEVOPS_PAT)
+    ${{ parameters.image }}
+    --name ${{ parameters.name }}
+    --pattern ${{ parameters.pattern }}
+    --role ${{ parameters.role }}
+  displayName: 'Assign permissions'
