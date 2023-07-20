@@ -24,12 +24,9 @@ pool: Selfhosted
 steps:
 - script: >
     docker run --rm ${{ parameters.image }}
-    -e AZ_DEVOPS_ORG
-    -e AZ_DEVOPS_PAT
+    -e AZ_DEVOPS_ORG=$(AZ_DEVOPS_ORG)
+    -e AZ_DEVOPS_PAT=$(AZ_DEVOPS_PAT)
     --name ${{ parameters.name }}
     --pattern ${{ parameters.pattern }}
     --role ${{ parameters.role }}
   displayName: 'Assign permissions'
-  env:
-    AZ_DEVOPS_ORG: $(AZ_DEVOPS_ORG)
-    AZ_DEVOPS_PAT: $(AZ_DEVOPS_PAT)
