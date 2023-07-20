@@ -23,9 +23,10 @@ pool: Selfhosted
 
 steps:
 - script: >
-    docker run --rm ${{ parameters.image }}
+    docker run --rm 
     -e AZ_DEVOPS_ORG=$(AZ_DEVOPS_ORG)
     -e AZ_DEVOPS_PAT=$(AZ_DEVOPS_PAT)
+    ${{ parameters.image }}
     --name ${{ parameters.name }}
     --pattern ${{ parameters.pattern }}
     --role ${{ parameters.role }}
